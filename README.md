@@ -16,7 +16,7 @@ PAL on inputs I7-I5 with other inputs provided on I4-I0.  The PAL then calculate
 "next state" on outputs I2-I0 with a "valid" signal on I3 indicating when the new
 state should be saved to the state registers.  
 
-![](diagrams/block_diag.png)
+![](diagrams/block_diagram.png)
 
 Using this FSM impelmentation, the Python code feeds a string to the PAL using a modified
 ASCII representation (since we only have a 5-bit input).
