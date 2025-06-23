@@ -1,6 +1,7 @@
 import sys
 import argparse
 import subprocess
+from generate_bitstream_multiple_outputs import *
 
 modified_ascii = {
        " ": 0, "!" : 27, "-" : 28, "." : 29, "_" : 30, "'" : 31
@@ -48,7 +49,7 @@ def add_o_term(o, term):
 # ====================================================================================
 if len(string) > 11:
    print(f'Oops, {len(string)} too long ... can only support up to 11 characters')
-   exit(1)
+   exit(2)
 
 # ====================================================================================
 # Validate we can support all input characters
@@ -60,7 +61,7 @@ for c in string:
       valid = False
 
 if not valid:
-   exit(1)
+   exit(2)
 
 # ====================================================================================
 # Open the output file
@@ -115,20 +116,14 @@ with open(filename, 'w') as file:
    for i in range(5):
       print(f'O{i} = {o_terms[i]}', file=file)
 
-# Caution if script prints extra text—your bitstream output must be parseable
-cmd = [
-    'python3.11',
-    'generate_bitstream_multiple_outputs.py',
-    f'{filename}',  # e.g. 'hello.txt'
-    '--fsm'
-]
-result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+# Run the bitstream generator
+result = generate_bitstream(filename, True)
 
 # The output should include something like:
 # 'prog' : [0x..., 0x..., ...]
 # We'll extract that
 prog_line = None
-for line in result.stdout.splitlines():
+for line in result:
     line = line.strip()
     if line.startswith("'prog'"):
         prog_line = line
@@ -147,7 +142,7 @@ with open(pyname, 'w') as out:
     out.write(f"def {func_name}():\n")
     out.write(f"    return {{\n")
     out.write(f'        "msg": "{string}",\n')
-    for line in result.stdout.splitlines():
-        out.write(f"    {line}     # from bitstream generator\n")
+    for line in result:
+        out.write(f"    {line}\n")
     out.write(f"    }}\n")
 

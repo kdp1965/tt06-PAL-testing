@@ -80,3 +80,34 @@ of the 'done' bit and pass/fail.
     Done bit not set
     Test passed! 👍
 
+## Generating your own tests
+
+In the bitstream_gen directory, I have placed a modified version of Matthias' 
+script for generating PAL programming bit streams from input equations.  In 
+addition, I wrote a generator to create the required input equations for any
+string (up to 11 characters with all characters only using the modified ASCII
+set).  The FSM generator automatically calls the modified bitstream generator
+and creates an output .py file.  The output .py file can be copied directly to
+the demoboard and used as the input configuration. Here is an example (Linux):
+
+    cd bitstream_gen
+    python3 -m venv venv
+    . venv/bin/activate
+    python3 -m pip install pyeda
+    python3 fsm_generator.py "MY FIRSTFSM" firstfsm.txt
+    cp firstfsm.py ../pal_test
+    cd ..
+    mpremote -r pal_test :
+
+Then from the RP2040 Micropython REPL:
+
+    >>> from pal_test import *
+    >>> be_a_PAL(tt, my_firstfsm_config())
+
+The 'be_a_PAL' function can also be called with a config number.  There are two 
+default configurations pre-loaded and you can edit be_a_PAL.py to add additional
+configs if you wish:
+
+    be_a_PAL(tt, 0)    # Runs the HELLO WORLD config
+    be_a_PAL(tt, 1)    # Runs the DON'T PANIC config
+
