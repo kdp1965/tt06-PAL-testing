@@ -41,7 +41,7 @@ def pal_write():
 
 
 class PAL_PIOWriter:
-  def __init__(self, sm_id=0, data_pin=21, clk_pin=23, freq=5_000_000):
+  def __init__(self, sm_id=0, data_pin=21, clk_pin=23, freq=125_000_000):
     self.sms = []
 
     sm = rp2.StateMachine(

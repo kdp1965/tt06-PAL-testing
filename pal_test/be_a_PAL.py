@@ -9,24 +9,13 @@ from pal_test.hello import hello_world_config
 from pal_test.dont_panic import dont_panic_config
 import time
 
+# ======================================================
+# Pre-canned configs
+# ======================================================
 configs = {
   0: hello_world_config(),
   1: dont_panic_config(),
 }
-#configs = {
-#  0: { 
-#       "msg" : "HELLO WORLD",
-#       "prog": [0xC57FF040, 0x76FC0AF0, 0x47570C4E, 0xFC0FFE05,
-#                0x38F8181C, 0xE76F1238, 0x39B8E0E3, 0x00000032,
-#               ]
-#     },
-#  1: {
-#       "msg" : "DON'T PANIC",
-#       "prog" :  [0x337FF100, 0x9AFC06F0, 0x4797032F, 0x740FFE03,
-#                  0xD4E50C5E, 0xDEA42B58, 0x7D91C946, 0x00000013,
-#                 ]
-#     },
-#} 
 
 # ======================================================
 # Modified ASCII encoding we will use
