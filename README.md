@@ -5,21 +5,30 @@ by Matthias Musch (design #236).
 
 ## Test Method
 
-The Easy PAL is an 8 input, 5 output 11 product term PAL that is programmable 
+The Easy PAL is an 8 input, 5 output, 11 product term PAL that is programmable 
 via 231 internal D flip flops arranged in a shift-register chain for progamming.
+While it has no internal D flops for state storage, it does offer a full matrix
+AND array with both TRUE and COMPLIMENT inputs to the 11 internal product terms
+and a full OR array to select any product term for inclusion in any of the 5 outputs.
+
 The author wrote and provided a Python application for generating the required bit
 stream from input logic equations.  
 
-The test works by implementing a 3-bit (8-state) Finite Statate Machine (FSM) using
+This test works by implementing a 3-bit (8-state) Finite Statate Machine (FSM) using
 a "3-bit" register impelmented in Python.  The 3 bits of current state are fed to the
 PAL on inputs I7-I5 with other inputs provided on I4-I0.  The PAL then calculates the
 "next state" on outputs I2-I0 with a "valid" signal on I3 indicating when the new
 state should be saved to the state registers.  
 
+## Test Block Diagram
 ![](diagrams/block_diagram.png)
 
 Using this FSM impelmentation, the Python code feeds a string to the PAL using a modified
-ASCII representation (since we only have a 5-bit input).
+ASCII representation (since we only have a 5-bit input).  A byte at a time for each
+state.  The PAL programming is such that at each of the 8 states, one or more input
+ASCII values will cause a transition to the next state.  A failure to detect the proper
+input character results in the state resetting to zero.  The modified ASCII values are
+detailed in this table:
 
 ![](diagrams/modified_ascii.png)
 
