@@ -74,11 +74,20 @@ def test_string(tt, pal, msg, expectPass = True):
   done = 0
   pal.i_state.value = state
 
+  # ==========================
   # Loop for all characters
+  # ==========================
   for char in msg:
-    v = modified_ascii[char]
+    # Lookup the modified ASCII code
+    try:
+      v = modified_ascii[char]
+    except:
+      v = 0
     pal.i_ascii.value = v
 
+    # =========================================
+    # Check the valid bit for state transition
+    # =========================================
     if pal.o_valid.value == 1:
       print(f'{char} ✅  ', end='')
 
@@ -89,9 +98,11 @@ def test_string(tt, pal, msg, expectPass = True):
     else:
       print(f'{char} ❌  ', end='')
       state = 0
-  
-  print()  # newline after the loop
+  print()  # Terminate the test response line
 
+  # =============================================
+  # Test if done bit was detected / report result
+  # =============================================
   if not done and expectPass:
     print(f'Did not detect!  Reporting non-zero for all 256 possibe inputs as debug:')
     for s in range(8):
@@ -124,15 +135,18 @@ def be_a_PAL(tt, config=0):
   try:
     c = configs[config]
   except:
+    # =========================================
+    # Test if a config was passed in
+    # =========================================
     if isinstance(config, dict) and 'msg' in config and 'prog' in config:
       c = config
     else:
       print(f'Config {config} not found')
       exit(1)
 
-  # Configure the PAL with a program
-  # step operations.  Let's first validate we are doing
-  # *something* prior to running.
+  # =========================================
+  # Configure the PAL using the PIO
+  # =========================================
   pal.pio_prog(c["prog"])
   msg = c["msg"]
 

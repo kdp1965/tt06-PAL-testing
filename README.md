@@ -106,7 +106,7 @@ the demoboard and used as the input configuration. Here is an example (Linux):
     python3 fsm_generator.py "MY FIRSTFSM" firstfsm.txt
     cp firstfsm.py ../pal_test
     cd ..
-    mpremote -r pal_test :
+    mpremote cp -r pal_test :
 
 Then from the RP2040 Micropython REPL:
 
