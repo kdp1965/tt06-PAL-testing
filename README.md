@@ -112,6 +112,17 @@ configs if you wish:
     be_a_PAL(tt, 0)    # Runs the HELLO WORLD config
     be_a_PAL(tt, 1)    # Runs the DON'T PANIC config
 
+## SpASICs
+
 A version of this test was submitted to SpASICs for testing the PAL design in
 space, though that version was prior to writing the PIO configuration program, so
 it takes several seconds for "bit-bang" programming fronm pure Python.
+
+Included in the SpASICS test are "HELLO SPACE" and "DON'T PANIC" configurations,
+selectable using the first argument byte.  For each configuration, a specific
+response is returned.  A failure message is reported if the config fails:
+
+ - HELLO SPACE:   returns: Why Hello!
+ - DON'T PANIC:   returns: 42
+ - Failure:       returns: Fail with the state number and byte it failed on
+
