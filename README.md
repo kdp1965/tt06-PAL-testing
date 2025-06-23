@@ -11,8 +11,10 @@ While it has no internal D flops for state storage, it does offer a full matrix
 AND array with both TRUE and COMPLIMENT inputs to the 11 internal product terms
 and a full OR array to select any product term for inclusion in any of the 5 outputs.
 
-The author wrote and provided a Python application for generating the required bit
-stream from input logic equations.  
+The author wrote and provided an awesome Python application for generating the required bit
+stream from input logic equations.  I have extended that application so the input
+equations are read from a file and also to produce output in a Python array suitable
+for programming a PIO FIFO.
 
 This test works by implementing a 3-bit (8-state) Finite Statate Machine (FSM) using
 a "3-bit" register impelmented in Python.  The 3 bits of current state are fed to the
