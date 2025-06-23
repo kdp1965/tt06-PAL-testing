@@ -26,7 +26,7 @@ ASCII representation (since we only have a 5-bit input).
 The Python code uses a PIO program that implements a shift register programming interface
 using a single SM with joined FIFOs from both RX and TX for a total of 8 32-bit FIFO words
 (max 32 bytes).  The PAL bitstream is 231 bits (28 bytes) so this fits within a single
-trnasaction.
+transaction.
 
 After programming the PIO fifo and issuing an IRQ 0 (to kick it off), the Python code
 starts feeding modified ASCII plus current state inputs to the PAL, monitoring the output
@@ -102,6 +102,7 @@ the demoboard and used as the input configuration. Here is an example (Linux):
 Then from the RP2040 Micropython REPL:
 
     >>> from pal_test import *
+    >>> from pal_test.firstfsm import *
     >>> be_a_PAL(tt, my_firstfsm_config())
 
 The 'be_a_PAL' function can also be called with a config number.  There are two 
@@ -111,3 +112,6 @@ configs if you wish:
     be_a_PAL(tt, 0)    # Runs the HELLO WORLD config
     be_a_PAL(tt, 1)    # Runs the DON'T PANIC config
 
+A version of this test was submitted to SpASICs for testing the PAL design in
+space, though that version was prior to writing the PIO configuration program, so
+it takes several seconds for "bit-bang" programming fronm pure Python.
