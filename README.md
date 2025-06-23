@@ -36,7 +36,7 @@ detailed in this table:
 
 The Python code uses a PIO program that implements a shift register programming interface
 using a single SM with joined FIFOs from both RX and TX for a total of 8 32-bit FIFO words
-(max 32 bytes).  The PAL bitstream is 231 bits (28 bytes) so this fits within a single
+(max 32 bytes).  The PAL bitstream is 231 bits (29 bytes) so this fits within a single
 transaction.
 
 After programming the PIO fifo and issuing an IRQ 0 (to kick it off), the Python code
