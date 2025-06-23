@@ -46,40 +46,6 @@ class PALController(DUT):
 
         self.pio      = PAL_PIOWriter()
 
-    def prog(self, data, num_bits, params, response):
-        n = len(data)
-        bits = 0
-        self.i_enable.value = 0
-        self.i_clk.value    = 0
-
-        # Loop for all bytes
-        for i in range(n):
-            d = data[n-i-1]
-            response.result[0] = i
-            response.result[1] = d
-            for b in range(8):
-                if not params.keep_running:
-                  return
-
-                # Set next config bit
-                self.i_config.value = d & 0x01
-                self.i_clk.value    = 1
-                self.i_clk.value    = 0
-
-                # Shift the data
-                d = d >> 1
-
-                # Increment bit count
-                bits += 1
-                if bits >= num_bits:
-                    break
-
-            if bits >= num_bits:
-                break
-
-        # Now enable the config
-        self.i_enable.value = 1
-
     def pio_prog(self, data):
         # Disable the config
         self.i_enable.value = 0
@@ -89,7 +55,7 @@ class PALController(DUT):
         self.tt.reset_project(True)
         self.tt.reset_project(False)
 
-        # Program the FIFOs
+        # Program the PIO FIFOs
         for d in data:
             self.pio.write(d)
 
